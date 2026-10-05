@@ -79,6 +79,11 @@ Run this one-line installer in your terminal (no admin rights needed):
 curl -fsSL https://raw.githubusercontent.com/chandsethi/pm-copilot/main/install-codex.sh | bash
 ```
 
+**To test before it's merged:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/chandsethi/pm-copilot/cursor/codex-support-0a66/install-codex.sh | PMC_REF=cursor/codex-support-0a66 bash
+```
+
 Then:
 1. Open the pm-copilot folder in Codex (the installer creates `~/pm-copilot` for you)
 2. Type **`set me up`** or invoke **`$get-started`**

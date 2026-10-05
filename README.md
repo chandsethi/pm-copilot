@@ -73,7 +73,7 @@ Then type **`set me up`** (or run **`/pm-copilot:setup`**), followed by **`/pm-c
 
 **In Codex (OpenAI)**
 
-Run this one-line installer in your terminal:
+Run this one-line installer in your terminal (no admin rights needed):
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/chandsethi/pm-copilot/main/install-codex.sh | bash
@@ -84,6 +84,8 @@ Then:
 2. Type **`set me up`** or invoke **`$get-started`**
 3. Follow the setup questions (about 5 minutes)
 
+The installer downloads the plugin to `~/.pm-copilot/repo` and symlinks skills to `~/.agents/skills`. Re-run anytime to update.
+
 After setup, run workflows by invoking them as skills: `$morning-brief`, `$weekly-prep`, `$open-loops`, `$self-improvement`.
 
 To uninstall:
@@ -91,7 +93,10 @@ To uninstall:
 curl -fsSL https://raw.githubusercontent.com/chandsethi/pm-copilot/main/uninstall-codex.sh | bash
 ```
 
-Your workspace and memory at `~/pm-copilot` are preserved when you uninstall (only the skills are removed). To remove everything, delete that folder manually.
+Your workspace and memory at `~/pm-copilot` are preserved when you uninstall. To remove everything including memory:
+```bash
+rm -rf ~/pm-copilot ~/.pm-copilot
+```
 
 ## Running it
 

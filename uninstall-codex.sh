@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # PM Co-Pilot for Codex - Uninstaller
-# Removes skill symlinks, preserves workspace and memory
+# Removes skill symlinks and global AGENTS.md block, preserves workspace and memory
 # Safe to re-run
 
 set -euo pipefail
@@ -11,6 +11,7 @@ echo "Uninstalling PM Co-Pilot for Codex..."
 USER_HOME="${HOME:-$( cd ~ && pwd )}"
 
 # Set paths
+PMC_HOME="$USER_HOME/.pm-copilot"
 SKILLS_DIR="$USER_HOME/.agents/skills"
 WORKSPACE_DIR="$USER_HOME/pm-copilot"
 GLOBAL_AGENTS="$USER_HOME/.codex/AGENTS.md"
@@ -35,8 +36,8 @@ REMOVED=0
 for skill in "${SKILL_NAMES[@]}"; do
   LINK_PATH="$SKILLS_DIR/$skill"
   if [ -L "$LINK_PATH" ]; then
-    # Check if it's a PM Co-Pilot symlink (points to pm-copilot directory)
-    if readlink "$LINK_PATH" | grep -q "pm-copilot"; then
+    # Check if it's a PM Co-Pilot symlink (points to .pm-copilot directory)
+    if readlink "$LINK_PATH" | grep -q "\.pm-copilot"; then
       rm "$LINK_PATH"
       echo "  ✓ Removed $skill"
       ((REMOVED++))
@@ -50,27 +51,38 @@ if [ $REMOVED -eq 0 ]; then
   echo "  No PM Co-Pilot skills found to remove."
 fi
 
-# Step 2: Inform about workspace preservation
+# Step 2: Remove PM Co-Pilot block from global AGENTS.md
 echo ""
-if [ -d "$WORKSPACE_DIR" ]; then
-  echo "Your workspace and memory are preserved at:"
-  echo "  $WORKSPACE_DIR"
-  echo ""
-  echo "This contains your personal setup and memory files."
-  echo "If you want to remove it too, run:"
-  echo "  rm -rf $WORKSPACE_DIR"
-else
-  echo "No workspace directory found at $WORKSPACE_DIR"
+if [ -f "$GLOBAL_AGENTS" ]; then
+  PMC_MARKER_BEGIN="# BEGIN PM Co-Pilot"
+  PMC_MARKER_END="# END PM Co-Pilot"
+  
+  if grep -q "$PMC_MARKER_BEGIN" "$GLOBAL_AGENTS"; then
+    echo "Removing PM Co-Pilot block from global AGENTS.md..."
+    # Create temp file without the PM Co-Pilot block
+    sed "/^$PMC_MARKER_BEGIN$/,/^$PMC_MARKER_END$/d" "$GLOBAL_AGENTS" > "$GLOBAL_AGENTS.tmp"
+    mv "$GLOBAL_AGENTS.tmp" "$GLOBAL_AGENTS"
+    echo "  ✓ Removed PM Co-Pilot block from $GLOBAL_AGENTS"
+  else
+    echo "  ✓ Global AGENTS.md has no PM Co-Pilot block"
+  fi
 fi
 
-# Step 3: Check global AGENTS.md
+# Step 3: Inform about workspace and cached repo preservation
 echo ""
-if [ -f "$GLOBAL_AGENTS" ] && grep -q "pm-copilot" "$GLOBAL_AGENTS" 2>/dev/null; then
-  echo "Note: Your global Codex instructions reference pm-copilot:"
-  echo "  $GLOBAL_AGENTS"
-  echo ""
-  echo "You may want to edit or remove this file."
+echo "Preserved (not removed):"
+if [ -d "$WORKSPACE_DIR" ]; then
+  echo "  • Workspace: $WORKSPACE_DIR"
+  echo "    Contains your personal setup and memory files."
 fi
+if [ -d "$PMC_HOME" ]; then
+  echo "  • Cached repository: $PMC_HOME/repo"
+  echo "    Used for updates. Safe to delete to save space."
+fi
+
+echo ""
+echo "To remove everything including memory:"
+echo "  rm -rf $WORKSPACE_DIR $PMC_HOME"
 
 echo ""
 echo "================================================"

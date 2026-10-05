@@ -37,10 +37,11 @@ for skill in "${SKILL_NAMES[@]}"; do
   LINK_PATH="$SKILLS_DIR/$skill"
   if [ -L "$LINK_PATH" ]; then
     # Check if it's a PM Co-Pilot symlink (points to .pm-copilot directory)
-    if readlink "$LINK_PATH" | grep -q "\.pm-copilot"; then
+    TARGET=$(readlink "$LINK_PATH" || true)
+    if [[ "$TARGET" == *".pm-copilot"* ]]; then
       rm "$LINK_PATH"
       echo "  ✓ Removed $skill"
-      ((REMOVED++))
+      REMOVED=$((REMOVED + 1))
     else
       echo "  ⊘ Skipped $skill (not a PM Co-Pilot symlink)"
     fi

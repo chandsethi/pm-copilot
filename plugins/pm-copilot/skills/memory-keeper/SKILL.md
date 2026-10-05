@@ -9,7 +9,7 @@ The co-pilot handles a lot of the user's overhead, but it does not automatically
 
 **Core principle: gate the write, not the read.** Reading is cheap and reversible; a memory edit needs the user's approval. So auto-read freely, but never auto-write. Every proposed change is surfaced for a yes.
 
-Memory lives in the `memory/` folder next to the routing brain (CLAUDE.md). Route each fact to the right file using the routing table in CLAUDE.md.
+Memory lives in the `memory/` folder next to the routing brain (AGENTS.md or CLAUDE.md). Route each fact to the right file using the routing table in the routing brain.
 
 ---
 
@@ -23,7 +23,7 @@ Runs at the end of any turn (silently scoring for capture-worthy content) or on 
 2. **New person or role change** - someone joined, changed teams, or their role shifted. Routes to `memory/colleagues.md`.
 3. **New mechanic or process rule** - a rule about how the user's world or work operates that isn't written down yet. Routes to `memory/scope.md` or a topic file.
 4. **External fact** - a specific, durable fact about a competitor, partner, or market. Routes to the relevant topic file.
-5. **Working-pattern change** - a new rule for how the user wants the co-pilot to behave. Routes to `CLAUDE.md` (working style) or `memory/voice.md`.
+5. **Working-pattern change** - a new rule for how the user wants the co-pilot to behave. Routes to the routing brain (AGENTS.md or CLAUDE.md, working style section) or `memory/voice.md`.
 6. **Project evidence** - a finding or number that anchors an ongoing initiative. Routes to the matching `memory/topics/<topic>.md`.
 
 **Skip:** opinions in flight, brainstorms, half-formed plans, anything already in memory, code, and ephemeral snippets.
@@ -39,7 +39,7 @@ Runs while the co-pilot reads a source (a meeting transcript, chat, email, a doc
 **Track A - referenced artifacts (named but unseen).**
 1. Extract every artifact the source points to: decks, docs, tickets, dashboards, links.
 2. Dedup against the queue in `memory/context-gaps.md` (pending, ingested, muted).
-3. Keep only artifacts that map to a topic in the CLAUDE.md routing table or a VIP in `memory/colleagues.md`. Drop the rest.
+3. Keep only artifacts that map to a topic in the routing brain's routing table or a VIP in `memory/colleagues.md`. Drop the rest.
 4. Auto-read the high-relevance, reachable ones now. Append to the queue as `auto-read, diff-pending` with a one-line note of what's new versus current memory. If unreachable, mark `needs-link`.
 5. **Drift check:** if anything read contradicts a memory file (a decision reversed, a mechanic changed, a person moved), mark it `drift` and surface one line immediately, do not wait for the weekly sweep.
 

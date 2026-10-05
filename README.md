@@ -44,8 +44,8 @@ Setup writes two things into your workspace: a **`CLAUDE.md`** routing brain tha
 
 ## What you need
 
-- **Claude Cowork or Claude Code.**
-- **Your tools connected.** Hook up whatever you already use through Claude's connectors or your own MCP servers, and it works with them. Connect a couple now, add more whenever.
+- **Claude Cowork, Claude Code, or OpenAI Codex.**
+- **Your tools connected.** Hook up whatever you already use through MCP servers, and it works with them. Connect a couple now, add more whenever.
 
 ## Get it
 
@@ -71,13 +71,49 @@ Run:
 
 Then type **`set me up`** (or run **`/pm-copilot:setup`**), followed by **`/pm-copilot:first-run`**.
 
+**In Codex (OpenAI)**
+
+Run this one-line installer in your terminal (no admin rights needed):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/chandsethi/pm-copilot/main/install-codex.sh | bash
+```
+
+**To test before it's merged:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/chandsethi/pm-copilot/cursor/codex-support-0a66/install-codex.sh | PMC_REF=cursor/codex-support-0a66 bash
+```
+
+Then:
+1. Open the pm-copilot folder in Codex (the installer creates `~/pm-copilot` for you)
+2. Type **`set me up`** or invoke **`$get-started`**
+3. Follow the setup questions (about 5 minutes)
+
+The installer downloads the plugin to `~/.pm-copilot/repo` and symlinks skills to `~/.agents/skills`. Re-run anytime to update.
+
+After setup, run workflows by invoking them as skills: `$morning-brief`, `$weekly-prep`, `$open-loops`, `$self-improvement`.
+
+To uninstall:
+```bash
+curl -fsSL https://raw.githubusercontent.com/chandsethi/pm-copilot/main/uninstall-codex.sh | bash
+```
+
+Your workspace and memory at `~/pm-copilot` are preserved when you uninstall. To remove everything including memory:
+```bash
+rm -rf ~/pm-copilot ~/.pm-copilot
+```
+
 ## Running it
 
-Open a new chat and run a workflow whenever you want it: `morning-brief` each morning, `weekly-prep` at the start of your week, `open-loops` and `self-improvement` for a periodic sweep, and `sync` then `consolidate` to refresh your memory every couple of weeks.
+**In Claude:** Open a new chat and run a workflow whenever you want it. Just type the workflow name: `morning-brief` each morning, `weekly-prep` at the start of your week, `open-loops` and `self-improvement` for a periodic sweep, and `sync` then `consolidate` to refresh your memory every couple of weeks.
 
-**Why you run them yourself.** While testing this I noticed Claude seems to run scheduled tasks in the cloud, where they can't reach your local memory. So for now you run the workflows yourself, in a normal chat on your machine. Once local files and cloud runs connect again, scheduling should just work.
+**In Codex:** Invoke workflows as skills using `$` to see available skills, or call them directly: `$morning-brief`, `$weekly-prep`, `$open-loops`, `$self-improvement`, `$sync`, `$consolidate`.
+
+**Why you run them yourself.** Run workflows in a normal chat on your machine where they can access your local memory folder. Scheduled or cloud-based runs may not have access to local files.
 
 ## Staying updated
+
+**For Claude installations:**
 
 Turn on auto-update once and new versions arrive on their own:
 
@@ -86,7 +122,19 @@ Turn on auto-update once and new versions arrive on their own:
 
 After that, updates download in the background and load next time you start (Claude may nudge you to run `/reload-plugins`). Updating never touches your `CLAUDE.md` or memory, so your setup stays exactly as you left it. New skills show up automatically; tweaks to the setup templates only apply to fresh setups.
 
-PM Co-Pilot also tells you in-chat when it updates, so you don't have to go looking. See the full history in [CHANGELOG.md](plugins/pm-copilot/CHANGELOG.md), or on the repo's **Releases** page.
+PM Co-Pilot also tells you in-chat when it updates, so you don't have to go looking.
+
+**For Codex installations:**
+
+Re-run the installer to update to the latest version:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/chandsethi/pm-copilot/main/install-codex.sh | bash
+```
+
+The installer is idempotent and safe to re-run. It updates skill symlinks without touching your workspace or memory.
+
+**Version history:** See [CHANGELOG.md](plugins/pm-copilot/CHANGELOG.md) or the repo's **Releases** page.
 
 ## Feedback
 

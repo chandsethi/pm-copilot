@@ -7,7 +7,7 @@ description: Refresh your memory from your connected tools. Pulls new facts (new
 
 Refresh the memory files with the latest context from the user's connected tools. This is deliberate and heavier than the passive `memory-keeper` capture; run it deliberately, not on every turn.
 
-Memory lives in the `memory/` folder next to CLAUDE.md. Read `memory/day-to-day.md` for which tools are connected.
+Memory lives in the `memory/` folder next to the routing brain (AGENTS.md or CLAUDE.md). Read `memory/day-to-day.md` for which tools are connected.
 
 ## Step 0 - Back up first (non-negotiable)
 Before reading or writing anything, snapshot the memory folder so any bad edit is fully reversible.

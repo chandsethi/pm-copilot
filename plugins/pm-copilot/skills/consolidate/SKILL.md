@@ -7,13 +7,13 @@ description: A reflective cleanup pass over your memory files (no external fetch
 
 A reflective pass over what the co-pilot has learned about the user and their work. Goal: a future session should orient quickly (who they work with, what they're focused on, how they like things done) without re-asking. This reads and restructures the memory folder only; it does not fetch from external tools (that's `sync`, which normally runs just before this).
 
-Memory lives in the `memory/` folder next to CLAUDE.md.
+Memory lives in the `memory/` folder next to the routing brain (AGENTS.md or CLAUDE.md).
 
 ## Step 0 - Back up first (non-negotiable)
 Snapshot the memory folder before any edit, same pattern as `sync`. If the backup fails, STOP.
 
 ## Phase 1 - Take stock
-- List the memory folder and read the index in CLAUDE.md's routing table.
+- List the memory folder and read the index in the routing brain's routing table.
 - Skim each file. Note which overlap, which look stale, which are thin.
 
 ## Phase 2 - Plan the consolidation (propose-only)
@@ -25,7 +25,7 @@ Prepare specific proposed changes:
 - Merge duplicate facts into one canonical location.
 - Fix anything stale or contradicted (prefer the newest confirmed fact; flag genuine conflicts for the user rather than guessing).
 - Tighten wording so each file is scannable.
-- Update the routing table in CLAUDE.md if files were added, merged, or retired.
+- Update the routing table in the routing brain if files were added, merged, or retired.
 
 Present the plan as a short list: merge / retire / rewrite / reindex, one line each.
 

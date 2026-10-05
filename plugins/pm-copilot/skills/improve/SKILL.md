@@ -1,6 +1,6 @@
 ---
 name: improve
-description: Evaluate an external idea about AI agents, Claude setups, or agent infrastructure against your own setup, and get concrete, prioritized upgrades. Triggers on "/improve", on pasting a URL or a technique with phrases like "what do you think", "should we try this", "are we doing this right", "how does this compare", or any request to weigh an outside setup idea against your current one. Scope is strictly infrastructure - your CLAUDE.md, memory files, installed skills, scheduled tasks, connected tools, hooks, and agent patterns. It does NOT cover PM process (specs, meetings, board conventions); those belong to the workflows.
+description: Evaluate an external idea about AI agents or agent infrastructure against your own setup, and get concrete, prioritized upgrades. Triggers on pasting a URL or a technique with phrases like "what do you think", "should we try this", "are we doing this right", "how does this compare", or any request to weigh an outside setup idea against your current one. Scope is strictly infrastructure - your routing brain (AGENTS.md or CLAUDE.md), memory files, installed skills, scheduled tasks, connected tools, and agent patterns. It does NOT cover PM process (specs, meetings, board conventions); those belong to the workflows.
 ---
 
 # Improve - Setup Upgrade Skill
@@ -13,21 +13,20 @@ This skill solves one problem: there is too much "how to run agents better" cont
 
 ## When to trigger
 
-- You type `/improve`.
+- You invoke this skill explicitly (in Codex: `$improve`).
 - You paste a URL (X, LinkedIn, a blog, Substack, a GitHub repo, YouTube) and ask "what do you think", "should we try this", "are we doing this right", "how does this compare", "is this relevant".
 - You describe a technique you read or heard about and ask whether it applies to your setup.
-- You ask to "improve" your CLAUDE.md, memory, skills, or agent setup.
+- You ask to "improve" your routing brain, memory, skills, or agent setup.
 
 ## Scope guardrails
 
 **In scope:**
-- CLAUDE.md structure, routing logic, working-style instructions
+- Routing brain (AGENTS.md or CLAUDE.md) structure, routing logic, working-style instructions
 - Memory file organization and content
 - Skill creation, modification, or retirement
 - Scheduled tasks and how you run the workflows
 - Connected tools and how the workflows use them
-- Agent patterns (sub-agents, delegation, hooks, guardrails)
-- Slash commands and prompt templates
+- Agent patterns (sub-agents, delegation, guardrails)
 
 **Out of scope - decline and redirect:**
 - PM process (spec templates, meeting cadence, board workflows) -> that is the workflows' job, not infrastructure
@@ -51,16 +50,16 @@ Pull out the **core technique** in plain language. If the source has several ide
 
 ### 2. Inventory the current setup
 
-Before recommending anything, read what is actually in place. Do not re-read everything every time; read only the slices relevant to the incoming idea. Memory lives in the `memory/` folder next to `CLAUDE.md` (the paths are recorded during `/setup`; substitute them here).
+Before recommending anything, read what is actually in place. Do not re-read everything every time; read only the slices relevant to the incoming idea. Memory lives in the `memory/` folder next to the routing brain (AGENTS.md or CLAUDE.md, depending on which agent you're using).
 
 Read, in this order, only what is relevant:
-1. `CLAUDE.md` - routing brain, working style
+1. The routing brain (AGENTS.md or CLAUDE.md) - working style, routing table
 2. `memory/` - only the files the idea touches (`role.md`, `day-to-day.md` for tools, etc.)
 3. Installed skills (from the available-skills context, or by scanning the skills folder)
 4. Any scheduled tasks you run
 5. Connected tools (`memory/day-to-day.md` lists them)
 
-If the idea is about memory hygiene, read `CLAUDE.md` plus a couple of memory files. If it is about sub-agents, read the skills list. Match the read to the idea.
+If the idea is about memory hygiene, read the routing brain plus a couple of memory files. If it is about sub-agents, read the skills list. Match the read to the idea.
 
 > If a location does not resolve, ask rather than guessing.
 
@@ -117,16 +116,16 @@ Do not pad the table with weak Adopts to look busy. "All three Skip" is a valid,
 **Back up first (before any write).** Snapshot the workspace files you are about to touch so a bad edit is reversible, same pattern the memory skills use:
 
 ```bash
-WORKSPACE="<the folder that holds your CLAUDE.md and memory/>"
+WORKSPACE="<the folder that holds your routing brain and memory/>"
 BACKUP="<your backups folder>/improve_$(date +%Y-%m-%d_%H%M%S)"
-mkdir -p "$BACKUP" && cp -R "$WORKSPACE/CLAUDE.md" "$WORKSPACE/memory" "$BACKUP/" 2>/dev/null \
+mkdir -p "$BACKUP" && cp -R "$WORKSPACE"/*.md "$WORKSPACE/memory" "$BACKUP/" 2>/dev/null \
   && echo "Backed up to $BACKUP" || echo "Backup failed - STOP, do not write."
 ```
 If the backup fails, STOP and do not write.
 
-**What is safe to edit in place.** Your `CLAUDE.md` and your `memory/` files live in your workspace and persist, so routing rows, working-style lines, and memory edits apply directly.
+**What is safe to edit in place.** Your routing brain (AGENTS.md or CLAUDE.md) and your `memory/` files live in your workspace and persist, so routing rows, working-style lines, and memory edits apply directly.
 
-**Creating a new skill.** Write it to *your own* skills folder (for example `~/.claude/skills/<name>/SKILL.md`), never inside the installed PM Co-Pilot plugin package. The plugin is managed and gets overwritten whenever it updates, so anything written there is lost. If you are not sure where the user's own skills folder is, ask.
+**Creating a new skill.** Write it to *your own* skills folder (for Claude: `~/.claude/skills/<name>/SKILL.md`; for Codex: `~/.agents/skills/<name>/SKILL.md`), never inside the installed PM Co-Pilot plugin package. The plugin is managed and gets overwritten whenever it updates, so anything written there is lost. If you are not sure where the user's own skills folder is, ask.
 
 **Improving a PM Co-Pilot skill itself.** Do not edit the bundled skill file in place (same reason - it will not survive a plugin update). Instead log it as a suggestion in the friction log (below) and tell the user it is a change to the shipped skill, so they can carry it forward deliberately.
 
